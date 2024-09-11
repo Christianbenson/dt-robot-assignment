@@ -9,11 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoomTest {
     @Test void roomSetsWidth() {
         Room classUnderTest = new Room(5,7);
-        assertEquals(classUnderTest.getWidth(), 5, "Width should be 5");
+        assertEquals(5, classUnderTest.getWidth(), "Width should be 5");
     }
 
     @Test void roomSetsDepth() {
         Room classUnderTest = new Room(5,7);
-        assertEquals(classUnderTest.getDepth(), 7, "Depth should be 7");
+        assertEquals(7, classUnderTest.getDepth(), "Depth should be 7");
     }
 }

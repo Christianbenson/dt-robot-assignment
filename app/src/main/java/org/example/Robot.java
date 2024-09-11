@@ -22,7 +22,7 @@ public class Robot {
         //TODO implement
     }
 
-    public void walkForward() {
+    public void moveForward() {
         //TODO implement
     }
 
