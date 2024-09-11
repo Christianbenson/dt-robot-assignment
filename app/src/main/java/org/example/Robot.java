@@ -5,6 +5,7 @@ public class Robot {
     private int yCoord;
     private char direction;
     private Room currentRoom;
+    //TODO should add statics instead of using chars in code for readability
     private static char[] possibleDirections = {'N', 'E', 'S', 'W'};
 
     //TODO implement input validation, no negative coords + only N,E,W,S as direction
@@ -13,6 +14,35 @@ public class Robot {
         yCoord = yStart;
         direction = directionStart;
         currentRoom = roomStart;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Report: ");
+        sb.append(xCoord);
+        sb.append(" ");
+        sb.append(yCoord);
+        sb.append(" ");
+        sb.append(direction);
+        return sb.toString();
+    }
+
+    public void executeStringOfCommands(String commands) throws Exception {
+        validateCommandInput(commands);
+        for(char c : commands.toCharArray()) {
+            executeSingleCommand(c);
+        }
+    }
+
+    private void executeSingleCommand(char command) {
+        if(command == 'F') {
+            moveForward();
+        } else if (command == 'L') {
+            leftTurn();
+        } else if (command == 'R') {
+            rightTurn();
+        }
     }
 
     public void leftTurn() {
@@ -72,6 +102,16 @@ public class Robot {
     private void throwIfOutsideRoom() {
         if(!currentRoom.isInRoom(xCoord, yCoord)) {
             throw new IndexOutOfBoundsException("Robot is outside the room");
+        }
+    }
+
+    private void validateCommandInput(String commands) throws Exception {
+        for(char c : commands.toCharArray()) {
+            if(c == 'L' || c == 'F' || c == 'R') {
+                continue;
+            } else {
+                throw new Exception("Only L, F and R are recognized as commands");
+            }
         }
     }
 }

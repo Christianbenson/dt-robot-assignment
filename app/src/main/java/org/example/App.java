@@ -3,12 +3,94 @@
  */
 package org.example;
 
+import com.google.common.base.Strings;
+
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    private static String getGreeting() {
+        return "Hello and welcome to robotSim!";
     }
 
+    private static String roomSizePrompt() {
+        return "roomsize:";
+    }
+
+    private static String robotStartPrompt() {
+        return "robotstart:";
+    }
+
+    private static String movementPrompt() {
+        return "enter movements:";
+    }
+
+    private static String roomSizeRegex() {
+        return "%d%d";
+    }
+
+    private static String robotStartRegex() {
+        return "asd";
+    }
+
+
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(getGreeting());
+        String input = "";
+
+        System.out.println(roomSizePrompt());
+        try {
+            input = scanner.nextLine();
+            System.out.println("you entered: " + input);
+        } catch(NoSuchElementException e) {
+            //todo
+        }
+        Room room = getRoomFromString(input);
+
+        System.out.println(robotStartPrompt());
+        try {
+            input = scanner.nextLine();
+            System.out.println("you entered: " + input);
+        } catch(NoSuchElementException e) {
+            //todo
+        }
+        Robot robot = getRobotFromString(input, room);
+
+        System.out.println(movementPrompt());
+        try {
+            input = scanner.nextLine();
+            System.out.println("you entered: " + input);
+        } catch(NoSuchElementException e) {
+            //todo
+        }
+        try {
+            robot.executeStringOfCommands(input);
+        } catch (Exception e) {
+            System.out.println("Robot failed to recognize one or more commands");
+        }
+
+        System.out.println(robot.toString());
+    }
+
+    private static boolean validateRoomSize(String input) {
+        return !Strings.isNullOrEmpty(input);
+    }
+
+    private static boolean validateRobotStart(String input) {
+        return !Strings.isNullOrEmpty(input);
+    }
+
+    private static Room getRoomFromString(String input) {
+        int width = 0;
+        int depth = 0;
+        return new Room(width, depth);
+    }
+
+    private static Robot getRobotFromString(String input, Room room) {
+        int xStart = 0;
+        int yStart = 0;
+        char direction = 'N';
+        return new Robot(xStart, yStart, direction, room);
     }
 }
