@@ -18,7 +18,7 @@ public class Robot {
         currentRoom = roomStart;
     }
 
-    public Robot(String input, Room room) throws Exception {
+    public Robot(String input, Room room) throws IllegalArgumentException, NumberFormatException {
         this(getXFromString(input), getYFromString(input), getDirectionFromString(input), room);
     }
 
@@ -34,8 +34,11 @@ public class Robot {
 
     private static char getDirectionFromString(String input) {
         String[] spaceSeparatedStrings = input.split("\\s+");
-
-        return spaceSeparatedStrings[2].charAt(0);
+        char direction = Character.toUpperCase(spaceSeparatedStrings[2].charAt(0));
+        if(!isValidDirection(direction)) {
+            throw new IllegalArgumentException("Direction must be one of N, E, S or W.");
+        }
+        return direction;
     }
 
     public void executeStringOfCommands(String commands) throws Exception {
@@ -127,9 +130,9 @@ public class Robot {
         }
     }
 
-    private boolean isValidDirection(char c) {
+    private static boolean isValidDirection(char c) {
         char upperCase = Character.toUpperCase(c);
-        return Chars.contains(possibleDirections, c);
+        return Chars.contains(possibleDirections, upperCase);
     }
 
     @Override
