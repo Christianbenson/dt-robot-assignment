@@ -46,11 +46,11 @@ public class Robot {
     //TODO potentially map direction to the tile robot is looking at? Think of futureproofing for future directions
     private void moveForward(int steps) throws IndexOutOfBoundsException {
         if(direction == 'N') {
-            yCoord += steps;
+            yCoord -= steps;
         } else if(direction == 'E') {
             xCoord += steps;
         } else if(direction == 'S') {
-            yCoord -= steps;
+            yCoord += steps;
         } else if(direction == 'W') {
             xCoord -= steps;
         }

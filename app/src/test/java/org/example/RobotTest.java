@@ -23,7 +23,7 @@ class RobotTest {
         Robot classUnderTest = new Robot(1, 1, 'N', room);
         classUnderTest.moveForward();
         assertEquals(1, classUnderTest.getxCoord(), "Robot should not move sideways");
-        assertEquals(2, classUnderTest.getyCoord(), "Robot should move one step north (y-positive direction)");
+        assertEquals(0, classUnderTest.getyCoord(), "Robot should move one step north (y-positive direction)");
         assertEquals('N', classUnderTest.getDirection(), "Robot should not change direction");
     }
 
