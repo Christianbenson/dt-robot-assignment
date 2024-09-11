@@ -11,3 +11,4 @@ graphical interface
 validation
 other inputs like 45 degree turns
 handling of other rooms
+Map with directional vector instead of dumb logic for movement, i.e. {N : (0,1), E : (1,0)} etc
