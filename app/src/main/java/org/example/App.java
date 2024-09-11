@@ -3,7 +3,6 @@
  */
 package org.example;
 
-import com.google.common.base.Strings;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -26,69 +25,80 @@ public class App {
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         System.out.println(getGreeting());
-        String input = "";
-
-        System.out.println(roomSizePrompt());
-        try {
-            input = scanner.nextLine();
-            System.out.println("you entered: " + input);
-        } catch(NoSuchElementException e) {
-            //todo
-        }
-        Room room = getRoomFromString(input);
-
-        System.out.println(robotStartPrompt());
-        try {
-            input = scanner.nextLine();
-            System.out.println("you entered: " + input);
-        } catch(NoSuchElementException e) {
-            //todo
-        }
-        Robot robot = getRobotFromString(input, room);
-
-        System.out.println(movementPrompt());
-        try {
-            input = scanner.nextLine();
-            System.out.println("you entered: " + input);
-        } catch(NoSuchElementException e) {
-            //todo
-        }
-        try {
-            robot.executeStringOfCommands(input);
-        } catch (Exception e) {
-            if(e instanceof IndexOutOfBoundsException) {
-                System.out.println(e.getMessage());
-            }
-            System.out.println(e.getMessage());
-        }
-
+        Room room = createRoom();
+        Robot robot = createRobot(room);
+        controlRobot(robot);
         System.out.println(robot.toString());
     }
 
-    private static boolean validateRoomSize(String input) {
-        return !Strings.isNullOrEmpty(input);
+    private static Room createRoom() {
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+        Room room = null;
+        boolean roomCreated = false;
+        while(!roomCreated) {
+            try {
+                System.out.println(roomSizePrompt());
+                input = scanner.nextLine();
+                System.out.println("you entered: " + input);
+            } catch(NoSuchElementException e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                room = new Room(input);
+                roomCreated = true;
+            } catch(IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return room;
     }
 
-    private static boolean validateRobotStart(String input) {
-        return !Strings.isNullOrEmpty(input);
+    private static Robot createRobot(Room room) {
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+        Robot robot = null;
+        System.out.println(robotStartPrompt());
+        boolean robotCreationSuccessful = false;
+        while(!robotCreationSuccessful) {
+            try {
+                input = scanner.nextLine();
+                System.out.println("you entered: " + input);
+            } catch(NoSuchElementException e) {
+                System.out.println(e.getMessage());
+            }
+            try{
+                robot = new Robot(input, room);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return robot;
     }
 
-    //TODO we dont actually check if the input is in number format
-    private static Room getRoomFromString(String input) {
-        String[] spaceSeparatedStrings = input.split("\\s+");
-        int width = Integer.valueOf(spaceSeparatedStrings[0]);
-        int depth = Integer.valueOf(spaceSeparatedStrings[1]);
-        return new Room(width, depth);
-    }
-
-    //TODO input is not validated
-    private static Robot getRobotFromString(String input, Room room) {
-        String[] spaceSeparatedStrings = input.split("\\s+");
-        int xStart = Integer.valueOf(spaceSeparatedStrings[0]);;
-        int yStart = Integer.valueOf(spaceSeparatedStrings[1]);
-        char direction = spaceSeparatedStrings[2].charAt(0);
-        return new Robot(xStart, yStart, direction, room);
+    private static void controlRobot(Robot robot) {
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+        boolean successfullyMoved = false;
+        while(!successfullyMoved) {
+            System.out.println(movementPrompt());
+            try {
+                input = scanner.nextLine();
+                System.out.println("you entered: " + input);
+            } catch(NoSuchElementException e) {
+                System.out.println(e.getMessage());
+            }
+            try {
+                robot.executeStringOfCommands(input);
+                successfullyMoved = true;
+            } catch (Exception e) {
+                if(e instanceof IndexOutOfBoundsException) {
+                    System.out.println(e.getMessage());
+                    break;
+                }
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

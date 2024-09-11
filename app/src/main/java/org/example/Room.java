@@ -9,6 +9,21 @@ public class Room {
         this.depth = depth;
     }
 
+    public Room(String input) throws NumberFormatException {
+        this(getWidthFromString(input), getDepthFromString(input));
+    }
+
+    //TODO not handling case where user enters more than 2 inputs
+    private static int getWidthFromString(String input) {
+        String[] spaceSeparatedStrings = input.split("\\s+");
+        int width = Integer.parseInt(spaceSeparatedStrings[0]);
+    }
+
+    private static int getDepthFromString(String input) {
+        String[] spaceSeparatedStrings = input.split("\\s+");
+        int depth = Integer.parseInt(spaceSeparatedStrings[1]);
+    }
+
     public int getWidth() {
         return width;
     }

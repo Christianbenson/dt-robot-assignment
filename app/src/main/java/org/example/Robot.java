@@ -1,5 +1,7 @@
 package org.example;
 
+import com.google.common.primitives.Chars;
+
 public class Robot {
     private int xCoord;
     private int yCoord;
@@ -16,16 +18,24 @@ public class Robot {
         currentRoom = roomStart;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Report: ");
-        sb.append(xCoord);
-        sb.append(" ");
-        sb.append(yCoord);
-        sb.append(" ");
-        sb.append(direction);
-        return sb.toString();
+    public Robot(String input, Room room) throws Exception {
+        this(getXFromString(input), getYFromString(input), getDirectionFromString(input), room);
+    }
+
+    private static int getXFromString(String input) {
+        String[] spaceSeparatedStrings = input.split("\\s+");
+        return Integer.parseInt(spaceSeparatedStrings[0]);
+    }
+
+    private static int getYFromString(String input) {
+        String[] spaceSeparatedStrings = input.split("\\s+");
+        return Integer.parseInt(spaceSeparatedStrings[1]);
+    }
+
+    private static char getDirectionFromString(String input) {
+        String[] spaceSeparatedStrings = input.split("\\s+");
+
+        return spaceSeparatedStrings[2].charAt(0);
     }
 
     public void executeStringOfCommands(String commands) throws Exception {
@@ -108,11 +118,29 @@ public class Robot {
 
     private void validateCommandInput(String commands) throws Exception {
         for(char c : commands.toCharArray()) {
-            if(c == 'L' || c == 'F' || c == 'R') {
+            char command = Character.toUpperCase(c);
+            if(command == 'L' || command == 'F' || command == 'R') {
                 continue;
             } else {
                 throw new Exception("Only L, F and R are recognized as commands");
             }
         }
+    }
+
+    private boolean isValidDirection(char c) {
+        char upperCase = Character.toUpperCase(c);
+        return Chars.contains(possibleDirections, c);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Report: ");
+        sb.append(xCoord);
+        sb.append(" ");
+        sb.append(yCoord);
+        sb.append(" ");
+        sb.append(direction);
+        return sb.toString();
     }
 }
