@@ -31,6 +31,7 @@ public class Robot {
     public void executeStringOfCommands(String commands) throws Exception {
         validateCommandInput(commands);
         for(char c : commands.toCharArray()) {
+            System.out.println(c);
             executeSingleCommand(c);
         }
     }

@@ -25,15 +25,6 @@ public class App {
         return "enter movements:";
     }
 
-    private static String roomSizeRegex() {
-        return "%d%d";
-    }
-
-    private static String robotStartRegex() {
-        return "asd";
-    }
-
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(getGreeting());
@@ -67,7 +58,10 @@ public class App {
         try {
             robot.executeStringOfCommands(input);
         } catch (Exception e) {
-            System.out.println("Robot failed to recognize one or more commands");
+            if(e instanceof IndexOutOfBoundsException) {
+                System.out.println(e.getMessage());
+            }
+            System.out.println(e.getMessage());
         }
 
         System.out.println(robot.toString());
@@ -81,16 +75,20 @@ public class App {
         return !Strings.isNullOrEmpty(input);
     }
 
+    //TODO we dont actually check if the input is in number format
     private static Room getRoomFromString(String input) {
-        int width = 0;
-        int depth = 0;
+        String[] spaceSeparatedStrings = input.split("\\s+");
+        int width = Integer.valueOf(spaceSeparatedStrings[0]);
+        int depth = Integer.valueOf(spaceSeparatedStrings[1]);
         return new Room(width, depth);
     }
 
+    //TODO input is not validated
     private static Robot getRobotFromString(String input, Room room) {
-        int xStart = 0;
-        int yStart = 0;
-        char direction = 'N';
+        String[] spaceSeparatedStrings = input.split("\\s+");
+        int xStart = Integer.valueOf(spaceSeparatedStrings[0]);;
+        int yStart = Integer.valueOf(spaceSeparatedStrings[1]);
+        char direction = spaceSeparatedStrings[2].charAt(0);
         return new Robot(xStart, yStart, direction, room);
     }
 }
