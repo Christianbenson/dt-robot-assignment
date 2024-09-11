@@ -58,6 +58,6 @@ class RobotTest {
     @Test void robotThrowsExceptionOutOfBounds() {
         Robot classUnderTest = new Robot(2, 2, 'E', room);
         Throwable exception = assertThrows(IndexOutOfBoundsException.class, classUnderTest::moveForward);
-        assertEquals("Robot is outside of room", exception.getMessage());
+        assertEquals("Robot is outside the room", exception.getMessage());
     }
 }

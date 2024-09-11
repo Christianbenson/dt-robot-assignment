@@ -16,4 +16,12 @@ public class Room {
     public int getDepth() {
         return depth;
     }
+
+    public boolean isInRoom(int x, int y) {
+        return isWithinMaxExclusive(0, width, x) && isWithinMaxExclusive(0, depth, y);
+    }
+
+    private boolean isWithinMaxExclusive(int min, int max, int value) {
+        return value >= min && value < max;
+    }
 }

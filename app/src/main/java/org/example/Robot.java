@@ -44,7 +44,7 @@ public class Robot {
     }
 
     //TODO potentially map direction to the tile robot is looking at? Think of futureproofing for future directions
-    private void moveForward(int steps) {
+    private void moveForward(int steps) throws IndexOutOfBoundsException {
         if(direction == 'N') {
             yCoord += steps;
         } else if(direction == 'E') {
@@ -54,6 +54,7 @@ public class Robot {
         } else if(direction == 'W') {
             xCoord -= steps;
         }
+        throwIfOutsideRoom();
     }
 
     public int getxCoord() {
@@ -66,5 +67,11 @@ public class Robot {
 
     public char getDirection() {
         return direction;
+    }
+
+    private void throwIfOutsideRoom() {
+        if(!currentRoom.isInRoom(xCoord, yCoord)) {
+            throw new IndexOutOfBoundsException("Robot is outside the room");
+        }
     }
 }
