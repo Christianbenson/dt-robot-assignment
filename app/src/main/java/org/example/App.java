@@ -70,6 +70,7 @@ public class App {
             }
             try{
                 robot = new Robot(input, room);
+                robotCreationSuccessful = true;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
